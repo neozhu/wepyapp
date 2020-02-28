@@ -1,0 +1,157 @@
+<style>
+.main {
+  width: 670rpx;
+  margin: 40rpx auto 0;
+  background: #fff;
+  box-shadow: 0 0 2rpx 0 rgba(25, 29, 33, 0.15);
+  border-radius: 12rpx;
+  padding: 0 40rpx;
+  box-sizing: border-box;
+  position: relative;
+}
+.item {
+  border-bottom: 2rpx solid #F4F5F7;
+}
+.qrcode {
+  width: 590rpx;
+  margin: 0 auto;
+  padding: 50rpx 0 59rpx;
+  border-top: 2rpx solid #F4F5F7;
+  text-align: center;
+}
+.qrcode > view, .qrcode > text {
+  text-align: center;
+}
+canvas {
+  margin: 58rpx auto 0;
+}
+.qrcode > image {
+  margin: 58rpx auto 0;
+}
+.qrcodeimg {
+  margin: 58rpx auto 0;
+  width: 230px; height: 230px;
+}
+.type {
+  margin-top: 24rpx;
+  font-size: 28rpx;
+  color: #585C64;
+  line-height: 32rpx;
+}
+.tips {
+  margin-top: 40rpx;
+  font-size: 24rpx;
+  color: #999BA1;
+  line-height: 28rpx;
+}
+</style>
+<template>
+  <van-image use-loading-slot
+  fit="fill"
+  width="{{ width }}"
+  height="{{ height }}"
+  lazy-load
+  src="{{ src }}"
+  >
+  <van-loading
+    slot="loading"
+    type="spinner"
+    size="20"
+    vertical
+  />
+  </van-image>
+  <van-grid clickable column-num="3">
+    <van-grid-item text="本人就餐" icon="user-o"  bindclick="selfDining" />
+    <van-grid-item text="亲属就餐" icon="friends-o" bindclick="familyDining" />
+    <van-grid-item text="陪同人员" icon="vip-card-o" bind:click="vipDining" />
+  </van-grid>
+  <view class="main">
+    <view class="qrcode item">
+      <image class="qrcodeimg"   :src="qrcodeURL"></image>
+
+        <!-- <canvas style="width: 220px; height: 220px;"
+        canvas-id="myQrcode"></canvas> -->
+        <view class="tips">{{text}}</view>
+    </view>
+ </view>
+</template>
+<script>
+import wepy from '@wepy/core'
+import store from '../store'
+import QR from '../common/weapp-qrcode'
+// import QR from '../common/qrcode'
+// import drawQrcode from 'weapp-qrcode'
+// import { mapState, mapActions } from '@wepy/x'
+import { createNamespacedHelpers } from '@wepy/x'
+const { mapState, mapActions, mapGetters } = createNamespacedHelpers('product')
+wepy.component({
+  store,
+  props: {
+
+  },
+  data: {
+    qrcodeURL: '',
+    width: '100vw',
+    height: '180',
+    text: '本人就餐',
+    code: 'http:www.google.com',
+    src: 'https://images.shobserver.com/news/690_390/2018/12/24/12645b23-eb9f-4d63-8045-f5d4759a4b6d.jpg'
+  },
+  computed: {
+  },
+  mounted() {
+    this.drawImg()
+    this.draw()
+  },
+  created() {
+    this.draw()
+    this.drawImg()
+  },
+  methods: {
+    selfDining() {
+      this.text = '本人就餐'
+      this.draw()
+    },
+    familyDining() {
+      this.text = '家属就餐'
+      this.draw()
+    },
+    vipDining() {
+      this.text = '陪同人员就餐'
+      this.draw()
+    },
+    drawImg() {
+      const imgData = QR.drawImg(this.code, {
+        typeNumber: 4,
+        errorCorrectLevel: 'M',
+        size: 500
+      })
+      this.qrcodeURL = imgData
+    },
+    draw() {
+      // QR.api.draw(this.code, '#myQrcode', 220, 220)
+      // drawQrcode({
+      //   width: 200,
+      //   height: 200,
+      //   canvasId: 'myQrcode',
+      //   typeNumber: 6,
+      //   text: this.code
+      // })
+      // console.log(drawQrcode)
+    }
+  }
+})
+</script>
+<style></style>
+<config>
+{
+    navigationBarTitleText: 'productlist',
+    usingComponents: {
+      "van-grid": "../components/@vant/grid/index",
+      "van-grid-item": "../components/@vant/grid-item/index",
+      "van-row": "../components/@vant/row/index",
+      "van-col": "../components/@vant/col/index",
+      "van-image": "../components/@vant/image/index"
+    }
+}
+</config>

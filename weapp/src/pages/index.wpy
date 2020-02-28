@@ -1,0 +1,68 @@
+<style lang="less">
+
+</style>
+<template>
+  <div class="container">
+   <home />
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  import store from '../store'
+
+  wepy.page({
+    store,
+    config: {
+      navigationBarTitleText: 'test'
+    },
+
+    hooks: {
+      // Page 级别 hook, 只对当前 Page 的 setData 生效。
+      'before-setData': function (dirty) {
+        if (Math.random() < 0.2) {
+          console.log('setData canceled')
+          return false // Cancel setData
+        }
+        dirty.time = +new Date()
+        return dirty
+      }
+    },
+
+    data: {
+      picsrc: '../img/title.jpg',
+      userInfo: {
+        nickName: '加载中...'
+      }
+    },
+
+    computed: {
+
+    },
+
+    methods: {
+
+    },
+
+    created () {
+      let self = this
+      wx.getUserInfo({
+        success (res) {
+          console.log(res)
+          self.userInfo = res.userInfo
+        }
+      })
+    }
+  })
+</script>
+<config>
+{
+    navigationBarTitleText: '食堂就餐扫码APPs',
+    usingComponents: {
+      "slide-view": "module:miniprogram-slide-view",
+      "demo-block": "../components/demo-block/index",
+      "van-button": "../components/@vant/button/index",
+      'home': '../components/home'
+    }
+}
+</config>
