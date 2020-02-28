@@ -3,6 +3,7 @@
 </style>
 <template>
   <div class="container">
+    <canvas style="width: 200px; height: 200px;" canvas-id="myQrcode"></canvas>
    <home />
   </div>
 </template>
@@ -10,7 +11,7 @@
 <script>
   import wepy from '@wepy/core'
   import store from '../store'
-
+  import drawQrcode from 'weapp-qrcode'
   wepy.page({
     store,
     config: {
@@ -41,7 +42,19 @@
     },
 
     methods: {
+      draw() {
+        drawQrcode({
+          width: 200,
+          height: 200,
+          canvasId: 'myQrcode',
+          typeNumber: -1,
+          text: 'this.text',
+          callback: function(e) {
+            console.log(e)
 
+          }
+        })
+      }
     },
 
     created () {
@@ -52,6 +65,10 @@
           self.userInfo = res.userInfo
         }
       })
+    },
+    onLoad() {
+      this.draw()
+      // this.$apply()
     }
   })
 </script>

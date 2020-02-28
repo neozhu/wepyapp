@@ -69,8 +69,8 @@ canvas {
     <view class="qrcode item">
       <image class="qrcodeimg"   :src="qrcodeURL"></image>
 
-        <!-- <canvas style="width: 220px; height: 220px;"
-        canvas-id="myQrcode"></canvas> -->
+        <canvas style="width: 220px; height: 220px;"
+        canvas-id="myQrcode"></canvas>
         <view class="tips">{{text}}</view>
     </view>
  </view>
@@ -81,6 +81,7 @@ import store from '../store'
 import QR from '../common/weapp-qrcode'
 // import QR from '../common/qrcode'
 // import drawQrcode from 'weapp-qrcode'
+let drawQrcode = require('weapp-qrcode')
 // import { mapState, mapActions } from '@wepy/x'
 import { createNamespacedHelpers } from '@wepy/x'
 const { mapState, mapActions, mapGetters } = createNamespacedHelpers('product')
@@ -97,28 +98,21 @@ wepy.component({
     code: 'http:www.google.com',
     src: 'https://images.shobserver.com/news/690_390/2018/12/24/12645b23-eb9f-4d63-8045-f5d4759a4b6d.jpg'
   },
-  computed: {
-  },
-  mounted() {
-    this.drawImg()
-    this.draw()
-  },
-  created() {
-    this.draw()
-    this.drawImg()
-  },
   methods: {
     selfDining() {
       this.text = '本人就餐'
+      this.code = new Date().toString()
       this.draw()
     },
     familyDining() {
       this.text = '家属就餐'
+      this.code = new Date().toString()
       this.draw()
     },
     vipDining() {
       this.text = '陪同人员就餐'
-      this.draw()
+      this.code = new Date().toString()
+      this.drawImg()
     },
     drawImg() {
       const imgData = QR.drawImg(this.code, {
@@ -129,16 +123,45 @@ wepy.component({
       this.qrcodeURL = imgData
     },
     draw() {
-      // QR.api.draw(this.code, '#myQrcode', 220, 220)
-      // drawQrcode({
-      //   width: 200,
-      //   height: 200,
-      //   canvasId: 'myQrcode',
-      //   typeNumber: 6,
-      //   text: this.code
+      // const query = wx.createSelectorQuery()
+      // query.select('#myQrcode')
+      // .fields({ node: true, size: true })
+      // .exec((res) => {
+      //   const canvas = res[0].node
+      //   const ctx = canvas.getContext('2d')
+
+      //   const dpr = wx.getSystemInfoSync().pixelRatio
+      //   canvas.width = res[0].width * dpr
+      //   canvas.height = res[0].height * dpr
+      //   ctx.scale(dpr, dpr)
+
+      //   ctx.fillRect(0, 0, 100, 100)
       // })
+      // QR.api.draw(this.code, '#myQrcode', 220, 220)
+      const ctx = wx.createCanvasContext('myQrcode', this.$parent)
+
+      drawQrcode({
+        width: 220,
+        height: 220,
+        canvasId: 'myQrcode',
+        text: 'this.code',
+        ctx: ctx,
+        callback: function(e) {
+          console.log(e)
+          //hat.$apply()
+        }
+      })
       // console.log(drawQrcode)
     }
+  },
+  ready() {
+    console.log('ready')
+    this.draw()
+  },
+  created() {
+    console.log('created')
+    // this.draw()
+    this.drawImg()
   }
 })
 </script>
