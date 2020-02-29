@@ -8,6 +8,10 @@
   box-sizing: border-box;
   position: relative;
 }
+canvas {
+  position:fixed;
+  right:800rpx
+}
 .item {
   border-bottom: 2rpx solid #F4F5F7;
 }
