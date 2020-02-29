@@ -154,6 +154,12 @@ wepy.component({
       // console.log(drawQrcode)
     }
   },
+  onLoad() {
+    console.log('onLoad')
+  },
+  onUnload() {
+    console.log('onUnload')
+  },
   ready() {
     console.log('ready')
     this.draw()

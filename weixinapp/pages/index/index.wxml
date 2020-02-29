@@ -1,0 +1,49 @@
+<!--index.wxml-->
+<view class="container">
+  <van-image use-loading-slot fit="fill" width="{{ width }}" height="{{ height }}" lazy-load src="{{ src }}">
+    <van-loading slot="loading" type="spinner" size="20" vertical />
+  </van-image>
+  <van-grid clickable column-num="3">
+    <van-grid-item text="本人就餐" dot="{{dot}}" icon="user-o" bindclick="selfDining" />
+    <van-grid-item text="亲属就餐" info="{{friends}}" icon="friends-o" bindclick="familyDining" />
+    <van-grid-item text="陪同人员" info="{{vips}}" icon="vip-card-o" bind:click="vipDining" />
+  </van-grid>
+  <view class="main">
+
+    <view class="qrcode item">
+      <image class="qrcodeimg" src="{{ qrcodeURL }}"></image>
+      <!-- <canvas style="width: 220px; height: 220px;" canvas-id="myQrcode"></canvas> -->
+   
+      <view class="tips">{{text}}</view>
+    </view>
+ 
+  </view>
+
+
+  <van-popup show="{{ showfriends }}" closeable close-icon="close" position="bottom" custom-style="height: 30%;padding-top:50px" bind:close="onClose">
+    <van-grid clickable>
+      <van-grid-item bind:click="onSetFriends" data-num="1" icon="records" text="1人" />
+      <van-grid-item bind:click="onSetFriends" data-num="2" icon="records" text="2人" />
+      <van-grid-item bind:click="onSetFriends" data-num="3" icon="records" text="3人" />
+      <van-grid-item bind:click="onSetFriends" data-num="4" icon="records" text="4人" />
+    </van-grid>
+  </van-popup>
+
+  <van-popup show="{{ showvips }}" closeable close-icon="close" position="bottom" custom-style="height: 80%;padding-top:50px" bind:close="onClose">
+    <van-panel title="登记陪同人员" desc="" status="" use-footer-slot>
+      <van-cell-group>
+        <van-cell center title="总人数">
+          <van-stepper bind:change="onSetVips" value="{{ vips }}" step="1" />
+        </van-cell>
+        <block wx:for="{{vips}}"  wx:key="*this"> 
+        <van-field value="{{ value }}" placeholder="单位名称" border="{{ false }}" bind:change="onChange" />
+        <van-field value="{{ value }}" placeholder="姓名" border="{{ false }}" bind:change="onChange" />
+        </block>
+      </van-cell-group>
+      <view slot="footer" style="text-align: right;">
+        <van-button size="small" bind:click="onClose">取消</van-button>
+        <van-button size="small" bind:click="onConfirmVips" type="danger">确认</van-button>
+      </view>
+    </van-panel>
+  </van-popup>
+</view>
