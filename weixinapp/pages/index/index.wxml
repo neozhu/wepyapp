@@ -11,6 +11,7 @@
   <view class="main">
 
     <view class="qrcode item">
+      <view class="tips">{{now}}</view>
       <image class="qrcodeimg" src="{{ qrcodeURL }}"></image>
       <canvas style="width: 220px; height: 220px;" canvas-id="myQrcode" id="myQrcode"></canvas>
 

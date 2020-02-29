@@ -6,6 +6,7 @@ import QR from '../../common/weapp-qrcode'
 import Page from '../../common/page';
 Page({
   data: {
+    now:new Date().toLocaleString(),
     userInfo: {},
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     hasUserInfo: false,
@@ -112,6 +113,7 @@ Page({
   },
   selfDining() {
     this.setData({
+      now: new Date().toLocaleString(),
       foreground: '#000',
       text: '本人就餐',
       dot: true,
@@ -123,6 +125,7 @@ Page({
   },
   familyDining() {
     this.setData({
+      now: new Date().toLocaleString(),
       foreground: '#1CA4FC',
       dot: false,
       showfriends: true,
@@ -133,6 +136,7 @@ Page({
   },
   vipDining() {
     this.setData({
+      now: new Date().toLocaleString(),
       foreground: '#FF6F00',
       dot: false,
       showvips: true,
