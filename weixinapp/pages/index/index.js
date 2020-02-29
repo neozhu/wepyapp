@@ -19,6 +19,7 @@ Page({
     dot: true,
     friends: '',
     vips: '',
+    vipusers:[{org:'',name:''}],
     code: 'http:www.google.com',
     src: 'https://images.shobserver.com/news/690_390/2018/12/24/12645b23-eb9f-4d63-8045-f5d4759a4b6d.jpg'
   },
@@ -75,12 +76,39 @@ Page({
       vips: e.detail
     })
   },
+  onPlus(e) {
+    console.log('onPlus',e)
+    let array = this.data.vipusers
+    array.push({org:array[0].org,name:''})
+    //console.log(array)
+    this.setData({
+      vipusers: array
+    })
+  },
+  onMinus(e) {
+    console.log('onMinus', e)
+    let array = this.data.vipusers
+    array.pop();
+    //console.log(array)
+    this.setData({
+      vipusers: array
+    })
+
+  },
   onConfirmVips() {
     this.setData({
       showvips: false,
       friends: '',
     })
     this.draw()
+  },
+  onChange(e) {
+    console.log(e)
+    let tag = `vipusers[${e.currentTarget.dataset.idx}].${e.currentTarget.dataset.field}`
+    this.setData({
+      [tag]:e.detail.value
+    })
+   
   },
   selfDining() {
     this.setData({
