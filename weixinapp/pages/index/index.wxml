@@ -3,10 +3,14 @@
   <van-image use-loading-slot fit="fill" width="{{ width }}" height="{{ height }}" lazy-load src="{{ src }}">
     <van-loading slot="loading" type="spinner" size="20" vertical />
   </van-image>
-  <van-grid clickable column-num="3">
+  <van-grid clickable column-num="5">
     <van-grid-item text="本人就餐" dot="{{dot}}" icon="user-o" bindclick="selfDining" />
     <van-grid-item text="亲属就餐" info="{{friends}}" icon="friends-o" bindclick="familyDining" />
     <van-grid-item text="陪同人员" info="{{vips}}" icon="vip-card-o" bind:click="vipDining" />
+    <van-grid-item text="就餐记录"  icon="bar-chart-o" link-type="navigateTo"
+    url="/pages/record/index" />
+    <van-grid-item text="我的信息"  icon="setting-o" link-type="navigateTo"
+    url="/pages/profile/index" />
   </van-grid>
   <view class="main">
 
